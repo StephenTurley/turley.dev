@@ -1,11 +1,13 @@
 <section class="phx-hero">
-  <div>
-    <%= if @typing do %>
-      <p>typing...</p>
-    <% end %>
+  <div class="posts">
+    <ul>
+      <%= for post <- @posts do %>
+        <li><%= post.content %></li>
+      <% end %>
+    </ul>
   </div>
-  <form phx-change="typing" phx-submit="send_message">
-    <input type="text"  phx-blur="stopped_typing" phx-debounce=10 name="msg" value="<%= @msg %>" placeholder="Send message..." list="msgs" autocomplete="off"/>
+  <form phx-submit="send_message">
+    <input type="text" name="msg" value="<%= @msg %>" placeholder="Send message..." list="msgs" autocomplete="off"/>
     <button type="submit" phx-disable-with="Sending...">Submit</button>
   </form>
 </section>
