@@ -4,6 +4,7 @@ defmodule TurleyDevWeb.PageLive do
   alias TurleyDev.Post
   alias Phoenix.PubSub
 
+  # TODO check session for authentication
   @impl true
   def mount(_params, _session, socket) do
     if connected?(socket), do: subscribe()
@@ -14,14 +15,14 @@ defmodule TurleyDevWeb.PageLive do
   @impl true
   def handle_event("send_message", %{"msg" => msg}, socket) do
     Post.changeset(%Post{}, %{content: msg})
-    |> Repo.insert
+    |> Repo.insert()
     |> broadcast
 
     {:noreply, assign(socket, msg: "", posts: Repo.all(Post))}
   end
 
   @impl true
-  def handle_info({:post_added, %{"post" => post}}, socket) do
+  def handle_info({:post_added, %{"post" => _post}}, socket) do
     {:noreply, assign(socket, posts: Repo.all(Post))}
   end
 
