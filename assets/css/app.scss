@@ -1,5 +1,11 @@
 /* This file is for your main application css. */
 @import "./phoenix.css";
+@import "./timeline.scss";
+@import "./user_menu.scss";
+
+body {
+  margin: 0;
+}
 
 /* LiveView specific classes for your customizations */
 .phx-no-feedback.invalid-feedback,

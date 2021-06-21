@@ -1,12 +1,22 @@
-<section class="phx-hero">
-  <form phx-submit="create_post">
-    <input type="text" name="content" value="<%= @content %>" placeholder="Submit post..."/>
-    <button type="submit" phx-disable-with="Submitting...">Submit</button>
-  </form>
+<section class="timeline">
+  <div class="create-post">
+    <form phx-submit="create_post">
+      <input type="text" name="content" value="<%= @content %>" placeholder="Submit post..."/>
+      <button type="submit" phx-disable-with="Submitting...">Submit</button>
+    </form>
+  </div>
   <div class="posts">
     <ul>
       <%= for post <- @posts do %>
-        <li><%= post.content %></li>
+        <li>
+          <div class="post">
+            <div class="header">
+              <div class="creator"><%= "#{post.creator.first_name} #{post.creator.last_name}" %></div>
+              <div class="creation-date"><%= post.inserted_at %></div>
+            </div>
+            <div class="content"><%= post.content %></div>
+          </div>
+        </li>
       <% end %>
     </ul>
   </div>

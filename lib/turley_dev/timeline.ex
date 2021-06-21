@@ -8,12 +8,13 @@ defmodule TurleyDev.Timeline do
   def get_all do
     Post
     |> order_by(desc: :inserted_at)
+    |> preload(:creator)
     |> Repo.all()
   end
 
-  def create_text_post(text) do
+  def create_text_post(creator, text) do
     %Post{}
-    |> Post.changeset(%{content: text})
+    |> Post.changeset(%{content: text, creator_id: creator.id})
     |> Repo.insert()
     |> broadcast_added()
   end

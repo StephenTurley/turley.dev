@@ -1,0 +1,30 @@
+.posts li {
+  list-style: none;
+}
+.timeline .create-post form {
+  display: flex;
+  justify-content: space-between;
+
+}
+
+.timeline .create-post button {
+    margin-left: 10px;
+}
+
+.timeline .post {
+  padding: 25px;
+  border: 0.1rem solid #d1d1d1;
+  border-radius: .4rem;
+}
+
+.timeline .post .header {
+  display: flex;
+  justify-content: space-between;
+  font-size: .75em;
+}
+
+.post .content {
+  display: flex;
+  font-size: 1.25em;
+}
+

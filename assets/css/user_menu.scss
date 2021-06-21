@@ -1,0 +1,18 @@
+.user-menu {
+  display: flex;
+  justify-content: space-between;
+}
+
+.user-menu div {
+  margin-left: 5px;
+}
+
+.page-header {
+  padding: 5px;
+  border-bottom: 0.1rem solid #d1d1d1;
+  margin-bottom: 10px;
+  background-color: #DDD;
+  box-shadow: 1rem;
+  display: flex;
+  justify-content: space-between;
+}
