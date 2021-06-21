@@ -4,7 +4,6 @@ defmodule TurleyDev.Timeline.Post do
 
   schema "posts" do
     field :content, :string
-
     timestamps()
   end
 
