@@ -1,4 +1,8 @@
 <section class="phx-hero">
+  <form phx-submit="create_post">
+    <input type="text" name="content" value="<%= @content %>" placeholder="Submit post..."/>
+    <button type="submit" phx-disable-with="Submitting...">Submit</button>
+  </form>
   <div class="posts">
     <ul>
       <%= for post <- @posts do %>
@@ -6,8 +10,4 @@
       <% end %>
     </ul>
   </div>
-  <form phx-submit="create_post">
-    <input type="text" name="content" value="<%= @content %>" placeholder="Submit post..."/>
-    <button type="submit" phx-disable-with="Submitting...">Submit</button>
-  </form>
 </section>

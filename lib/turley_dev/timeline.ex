@@ -3,9 +3,12 @@ defmodule TurleyDev.Timeline do
   alias Phoenix.PubSub
   alias TurleyDev.Repo
   alias TurleyDev.Timeline.Post
+  import Ecto.Query
 
   def get_all do
-    Repo.all(Post)
+    Post
+    |> order_by(desc: :inserted_at)
+    |> Repo.all()
   end
 
   def create_text_post(text) do

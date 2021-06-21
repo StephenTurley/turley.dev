@@ -25,16 +25,20 @@ defmodule TurleyDev.TimelineTest do
       assert Timeline.get_all() == []
     end
 
-    test "it will return all the posts" do
+    test "it will return all the posts in reverse order" do
       Timeline.create_text_post("First")
+      # TODO figure out how to stub out timestamps
+      Process.sleep(1000)
       Timeline.create_text_post("Second")
+      # TODO figure out how to stub out timestamps
+      Process.sleep(1000)
       Timeline.create_text_post("Third")
 
       result =
         Timeline.get_all()
         |> Enum.map(& &1.content)
 
-      assert result == ["First", "Second", "Third"]
+      assert result == ["Third", "Second", "First"]
     end
   end
 end
