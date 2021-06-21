@@ -1,38 +1,23 @@
 defmodule TurleyDevWeb.PageLive do
   use TurleyDevWeb, :live_view
-  alias TurleyDev.Repo
-  alias TurleyDev.Post
-  alias Phoenix.PubSub
+  alias TurleyDev.Timeline
 
-  # TODO check session for authentication
   @impl true
   def mount(_params, _session, socket) do
-    if connected?(socket), do: subscribe()
-    posts = Repo.all(Post)
-    {:ok, assign(socket, typing: false, msg: "", posts: posts)}
+    if connected?(socket), do: Timeline.subscribe()
+    posts = Timeline.get_all()
+    {:ok, assign(socket, typing: false, content: "", posts: posts)}
   end
 
   @impl true
-  def handle_event("send_message", %{"msg" => msg}, socket) do
-    Post.changeset(%Post{}, %{content: msg})
-    |> Repo.insert()
-    |> broadcast
+  def handle_event("create_post", %{"content" => content}, socket) do
+    Timeline.create_text_post(content)
 
-    {:noreply, assign(socket, msg: "", posts: Repo.all(Post))}
+    {:noreply, assign(socket, content: "", posts: Timeline.get_all())}
   end
 
   @impl true
   def handle_info({:post_added, %{"post" => _post}}, socket) do
-    {:noreply, assign(socket, posts: Repo.all(Post))}
-  end
-
-  defp subscribe() do
-    PubSub.subscribe(TurleyDev.PubSub, "posts")
-  end
-
-  defp broadcast({:error, _r}), do: IO.puts('error')
-
-  defp broadcast({:ok, post}) do
-    PubSub.broadcast(TurleyDev.PubSub, "posts", {:post_added, %{"post" => post}})
+    {:noreply, assign(socket, posts: Timeline.get_all())}
   end
 end

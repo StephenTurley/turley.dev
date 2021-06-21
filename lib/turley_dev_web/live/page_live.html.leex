@@ -6,8 +6,8 @@
       <% end %>
     </ul>
   </div>
-  <form phx-submit="send_message">
-    <input type="text" name="msg" value="<%= @msg %>" placeholder="Send message..." list="msgs" autocomplete="off"/>
-    <button type="submit" phx-disable-with="Sending...">Submit</button>
+  <form phx-submit="create_post">
+    <input type="text" name="content" value="<%= @content %>" placeholder="Send message..."/>
+    <button type="submit" phx-disable-with="Submitting...">Submit</button>
   </form>
 </section>

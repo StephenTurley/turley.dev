@@ -1,4 +1,4 @@
-defmodule TurleyDev.Post do
+defmodule TurleyDev.Timeline.Post do
   use Ecto.Schema
   import Ecto.Changeset
 
