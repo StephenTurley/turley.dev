@@ -5,6 +5,8 @@ defmodule TurleyDev.Accounts.User do
   @derive {Inspect, except: [:password]}
   schema "users" do
     field :email, :string
+    field :first_name, :string
+    field :last_name, :string
     field :password, :string, virtual: true
     field :hashed_password, :string
     field :confirmed_at, :naive_datetime
@@ -31,8 +33,9 @@ defmodule TurleyDev.Accounts.User do
   """
   def registration_changeset(user, attrs, opts \\ []) do
     user
-    |> cast(attrs, [:email, :password])
+    |> cast(attrs, [:email, :first_name, :last_name, :password])
     |> validate_email()
+    |> validate_name()
     |> validate_password(opts)
   end
 
@@ -43,6 +46,12 @@ defmodule TurleyDev.Accounts.User do
     |> validate_length(:email, max: 160)
     |> unsafe_validate_unique(:email, TurleyDev.Repo)
     |> unique_constraint(:email)
+  end
+
+  defp validate_name(changeset) do
+    changeset
+    |> validate_required([:first_name])
+    |> validate_required([:last_name])
   end
 
   defp validate_password(changeset, opts) do

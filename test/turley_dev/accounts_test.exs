@@ -48,10 +48,12 @@ defmodule TurleyDev.AccountsTest do
   end
 
   describe "register_user/1" do
-    test "requires email and password to be set" do
+    test "requires email, password, first and last name to be set" do
       {:error, changeset} = Accounts.register_user(%{})
 
       assert %{
+               first_name: ["can't be blank"],
+               last_name: ["can't be blank"],
                password: ["can't be blank"],
                email: ["can't be blank"]
              } = errors_on(changeset)
@@ -74,8 +76,11 @@ defmodule TurleyDev.AccountsTest do
     end
 
     test "validates email uniqueness" do
-      %{email: email} = user_fixture()
-      {:error, changeset} = Accounts.register_user(%{email: email})
+      %{email: email, first_name: first_name, last_name: last_name} = user_fixture()
+
+      {:error, changeset} =
+        Accounts.register_user(%{email: email, first_name: first_name, last_name: last_name})
+
       assert "has already been taken" in errors_on(changeset).email
 
       # Now try with the upper cased email too, to check that email case is ignored.
@@ -96,7 +101,7 @@ defmodule TurleyDev.AccountsTest do
   describe "change_user_registration/2" do
     test "returns a changeset" do
       assert %Ecto.Changeset{} = changeset = Accounts.change_user_registration(%User{})
-      assert changeset.required == [:password, :email]
+      assert changeset.required == [:password, :last_name, :first_name, :email]
     end
 
     test "allows fields to be set" do
