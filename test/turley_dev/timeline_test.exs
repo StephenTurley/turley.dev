@@ -27,9 +27,35 @@ defmodule TurleyDev.TimelineTest do
     end
   end
 
+  describe "add_comment/3" do
+    test "adds the comment" do
+      user = user_fixture()
+      {:ok, post} = Timeline.create_text_post(user, "Flerpn derpn")
+      {:ok, comment} = Timeline.create_comment(user, post.id, "muh comment")
+
+      assert comment.content == "muh comment"
+      assert comment.post_id == post.id
+    end
+  end
+
   describe "get_all/0" do
     test "it will return an empty list" do
       assert Timeline.get_all() == []
+    end
+
+    test "it will preload the comments" do
+      user = user_fixture()
+
+      {:ok, post} = Timeline.create_text_post(user, "First")
+      Timeline.create_comment(user, post.id, "flerpn derpn")
+
+      comments =
+        Timeline.get_all()
+        |> Enum.at(0)
+        |> Map.get(:comments)
+        |> Enum.map(& &1.content)
+
+      assert comments == ["flerpn derpn"]
     end
 
     test "it will preload the creator" do

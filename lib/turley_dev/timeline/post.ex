@@ -5,6 +5,7 @@ defmodule TurleyDev.Timeline.Post do
   schema "posts" do
     field :content, :string
     belongs_to :creator, TurleyDev.Accounts.User
+    has_many :comments, TurleyDev.Timeline.Comment
     timestamps()
   end
 
