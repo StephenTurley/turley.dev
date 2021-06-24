@@ -15,6 +15,17 @@
               <div class="creation-date"><%= post.inserted_at %></div>
             </div>
             <div class="content"><%= post.content %></div>
+            <div class="comments">
+              <ul>
+                <%= for comment <- post.comments do %>
+                  <li><%= comment.content %></li>
+                <% end %>
+              </ul>
+              <form phx-submit="add_comment">
+                <input type="text" name="content" placeholder="Add comment..."/>
+                <input type="hidden" name="post_id" value="<%= post.id %>"/>
+              </form>
+            </div>
           </div>
         </li>
       <% end %>

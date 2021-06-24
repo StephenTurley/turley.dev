@@ -20,7 +20,18 @@ defmodule TurleyDevWeb.PageLive do
   end
 
   @impl true
+  def handle_event("add_comment", %{"post_id" => post_id, "content" => content}, socket) do
+    Timeline.create_comment(socket.assigns.user, post_id, content)
+    {:noreply, assign(socket, content: "", posts: Timeline.get_all())}
+  end
+
+  @impl true
   def handle_info({:post_added, %{"post" => _post}}, socket) do
+    {:noreply, assign(socket, posts: Timeline.get_all())}
+  end
+
+  @impl true
+  def handle_info({:comment_added, %{"comment" => _comment}}, socket) do
     {:noreply, assign(socket, posts: Timeline.get_all())}
   end
 

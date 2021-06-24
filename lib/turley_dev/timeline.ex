@@ -25,6 +25,7 @@ defmodule TurleyDev.Timeline do
     %Comment{}
     |> Comment.changeset(%{user_id: user.id, post_id: post_id, content: content})
     |> Repo.insert()
+    |> comment_added()
   end
 
   def subscribe do
@@ -36,5 +37,10 @@ defmodule TurleyDev.Timeline do
   defp post_added({:ok, post}) do
     PubSub.broadcast(TurleyDev.PubSub, "timeline", {:post_added, %{"post" => post}})
     {:ok, post}
+  end
+
+  defp comment_added({:ok, comment}) do
+    PubSub.broadcast(TurleyDev.PubSub, "timeline", {:comment_added, %{"comment" => comment}})
+    {:ok, comment}
   end
 end
