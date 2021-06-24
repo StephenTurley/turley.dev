@@ -1,7 +1,7 @@
 <section class="timeline">
   <div class="create-post">
     <form phx-submit="create_post">
-      <input type="text" name="content" value="<%= @content %>" placeholder="Submit post..."/>
+      <input type="text" name="content" value="<%= @content %>" autocomplete="off" placeholder="Submit post..."/>
       <button type="submit" phx-disable-with="Submitting...">Submit</button>
     </form>
   </div>
@@ -22,7 +22,7 @@
                 <% end %>
               </ul>
               <form phx-submit="add_comment">
-                <input type="text" name="content" placeholder="Add comment..."/>
+                <input type="text" name="content" autocomplete="off" placeholder="Add comment..."/>
                 <input type="hidden" name="post_id" value="<%= post.id %>"/>
               </form>
             </div>
