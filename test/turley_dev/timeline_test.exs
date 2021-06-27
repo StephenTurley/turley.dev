@@ -43,11 +43,16 @@ defmodule TurleyDev.TimelineTest do
       assert Timeline.get_all() == []
     end
 
-    test "it will preload the comments" do
-      user = user_fixture()
+    test "it will preload the comments in order" do
+      bob = user_fixture(%{first_name: "bob"})
+      fred = user_fixture(%{first_name: "fred"})
 
-      {:ok, post} = Timeline.create_text_post(user, "First")
-      Timeline.create_comment(user, post.id, "flerpn derpn")
+      {:ok, post} = Timeline.create_text_post(bob, "This is my cool post!")
+
+      Timeline.create_comment(fred, post.id, "1")
+      Timeline.create_comment(bob, post.id, "2")
+      Timeline.create_comment(fred, post.id, "3")
+      Timeline.create_comment(bob, post.id, "4")
 
       comments =
         Timeline.get_all()
@@ -55,7 +60,7 @@ defmodule TurleyDev.TimelineTest do
         |> Map.get(:comments)
         |> Enum.map(& &1.content)
 
-      assert comments == ["flerpn derpn"]
+      assert comments == ["1", "2", "3", "4"]
     end
 
     test "it will preload the creator" do

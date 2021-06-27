@@ -7,11 +7,14 @@ defmodule TurleyDev.Timeline do
   import Ecto.Query
 
   def get_all do
-    Post
-    |> order_by(desc: :inserted_at)
-    |> preload(:creator)
-    |> preload(:comments)
-    |> Repo.all()
+    recent_comments = from c in Comment, order_by: c.inserted_at
+
+    Repo.all(
+      from p in Post,
+        preload: [comments: ^recent_comments],
+        preload: [:creator],
+        order_by: [desc: :inserted_at]
+    )
   end
 
   def create_text_post(creator, text) do
