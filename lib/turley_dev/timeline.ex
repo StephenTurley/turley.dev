@@ -7,7 +7,7 @@ defmodule TurleyDev.Timeline do
   import Ecto.Query
 
   def get_all do
-    recent_comments = from c in Comment, order_by: c.inserted_at
+    recent_comments = from c in Comment, order_by: c.inserted_at, preload: :user
 
     Repo.all(
       from p in Post,

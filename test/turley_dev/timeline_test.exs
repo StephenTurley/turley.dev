@@ -63,6 +63,22 @@ defmodule TurleyDev.TimelineTest do
       assert comments == ["1", "2", "3", "4"]
     end
 
+    test "it will preload the commentor" do
+      user = user_fixture()
+
+      {:ok, post} = Timeline.create_text_post(user, "This is my cool post!")
+      Timeline.create_comment(user, post.id, "1")
+
+      commentor =
+        Timeline.get_all()
+        |> Enum.at(0)
+        |> Map.get(:comments)
+        |> Enum.at(0)
+        |> Map.get(:user)
+
+      assert commentor == user
+    end
+
     test "it will preload the creator" do
       user = user_fixture()
 

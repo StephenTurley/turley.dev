@@ -18,7 +18,10 @@
             <div class="comments">
               <ul>
                 <%= for comment <- post.comments do %>
-                  <li><%= comment.content %></li>
+                  <li>
+                    <div class="creator"><%= "#{comment.user.first_name} #{comment.user.last_name}" %></div>
+                    <div><%= comment.content %></div>
+                  </li>
                 <% end %>
               </ul>
               <form phx-submit="add_comment">
